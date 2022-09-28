@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FuncionariosMVC.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<FuncionariosMVCContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FuncionariosMVCContext") ?? throw new InvalidOperationException("Connection string 'FuncionariosMVCContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
