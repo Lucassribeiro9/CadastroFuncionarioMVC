@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FuncionariosMVC.Services;
 
 namespace FuncionariosMVC.Models
 {
@@ -10,6 +11,8 @@ namespace FuncionariosMVC.Models
         [Required(ErrorMessage = "O campo nome é obrigatório!")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo deve ter no mínimo três caracteres!")]
         public string Nome { get; set; }
+        [Required(ErrorMessage = "CPF obrigatório")]
+        [CustomValidation.ValidadorCpf]
         public string Cpf { get; set; }
         public string Rg { get; set; }
         public string OrgaoEmissor { get; set; }
