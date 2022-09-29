@@ -1,6 +1,7 @@
 <h1 align="center">
 FuncionariosMVC
 </h1>
+<h6 align="right">Versão 1.0</h6>
 
 ![image](https://user-images.githubusercontent.com/57766036/193074337-5881ecb5-511f-49da-b829-86a822087498.png)
 
@@ -34,15 +35,16 @@ O Visual Studio irá carregar o projeto e logo após, poderá ser executado.
 <h4>Program.cs</h4>
 
 ~~~csharp
-var connectionStringMySql = builder.Configuration.GetConnectionString("ConnectionMySql");
-builder.Services.AddDbContext<LocadoraDbContext>(option => option.UseMySql(connectionStringMySql, ServerVersion.Parse("MySQL 5.7.37")
+builder.Services.AddDbContext<FuncionariosMVCContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FuncionariosMVCContext") ?? throw new InvalidOperationException("Connection string 'FuncionariosMVCContext' not found.")));
+
 ~~~
 
 <h4>appsettings.json</h4>
 
 ```json
 "ConnectionStrings": {
-    "ConnectionMySql": "Server=localhost;Port=3306;initial catalog=nomedobanco;uid=root;pwd=senhadobanco" // modifique conforme o banco que irá usar
+    "FuncionariosMVCContext": "Server=(localdb)\\mssqllocaldb;Database=FuncionariosMVCdb;Trusted_Connection=True;MultipleActiveResultSets=true"
   }
 ```
 
@@ -66,28 +68,20 @@ remove-migration "nome da migration"
 ```
 
 # 🔨 Funcionalidades
-- Retorna os filmes por ordem do ID (GET)
-
-![get](https://user-images.githubusercontent.com/57766036/183537264-257066af-c570-4ea1-b460-50d415f41668.gif)
-
-- Adiciona os filmes (POST)
-
-![post](https://user-images.githubusercontent.com/57766036/183537300-ca991387-b473-4b00-9469-7ee8ec0e7e64.gif)
+- Criação do cadastro
 
 
-- Retorna os filmes por gênero (Busca por gênero)
-
-![getbygenero](https://user-images.githubusercontent.com/57766036/183538059-a52908bd-a2c7-4210-8c8c-a66b7dda99f7.gif)
+- Tela inicial dos funcionários 
 
 
-- Atualiza os filmes selecionados (PUT)
 
-![put](https://user-images.githubusercontent.com/57766036/183777214-3e8a1f5a-8151-4147-a880-019f19300c1a.gif)
+- Editar cadastro
 
 
-- Exclui os filmes selecionados (DELETE)
 
-![delete](https://user-images.githubusercontent.com/57766036/183777239-5bcf93c8-e12d-4d02-a90f-595114dcc3c7.gif)
+
+- Excluir cadastro
+
 
 
 
