@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
 
 namespace FuncionariosMVC.Services
 {
-    public class ValidadorCpf : ValidationAttribute, IClientValidatable
+    public class ValidadorCpf : ValidationAttribute
     {
         public ValidadorCpf()
         {
@@ -80,13 +79,6 @@ namespace FuncionariosMVC.Services
             return true;
         }
 
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        {
-            yield return new ModelClientValidationRule
-            {
-                ErrorMessage = this.FormatErrorMessage("erro"),
-                ValidationType = "customvalidationcpf"
-            };
-        }
+       
     }
 }
