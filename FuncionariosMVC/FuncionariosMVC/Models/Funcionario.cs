@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using FuncionariosMVC.Services;
 
 namespace FuncionariosMVC.Models
@@ -12,19 +13,44 @@ namespace FuncionariosMVC.Models
         [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo deve ter no mínimo três caracteres!")]
         public string Nome { get; set; }
         [Required(ErrorMessage = "CPF obrigatório")]
-        [CustomValidation.ValidadorCpf]
+        [ValidadorCpf]
+        [DisplayName("CPF")]
         public string Cpf { get; set; }
+        [DisplayName("RG")]
+
         public string Rg { get; set; }
+        [DisplayName("Orgão Emissor")]
+
         public string OrgaoEmissor { get; set; }
+        [DisplayName("Título Eleitoral")]
+
         public string TituloEleitoral { get; set; }
+        [DisplayName("CEP")]
+
         public string Cep { get; set; }
+        [DisplayName("Endereço")]
+
         public string Logradouro { get; set; }
+        [DisplayName("Número")]
+
         public string NumeroEndereco { get; set; }
+        [DisplayName("Complemento")]
+
         public string Complemento { get; set; }
+        [DisplayName("Bairro")]
+
         public string Bairro { get; set; }
+        [DisplayName("Cidade")]
+
         public string Cidade { get; set; }
+        [DisplayName("Estado")]
+
         public string Estado { get; set; }
+        [DisplayName("Ativo")]
+
         public bool FuncionarioAtivo { get; set; }
+        [DisplayName("Possui cargo como gestor?")]
+
         public bool CargoGestor { get; set; }
 
         public Funcionario()
