@@ -70,19 +70,23 @@ remove-migration "nome da migration"
 # 🔨 Funcionalidades
 - Criação do cadastro
 
+![funcaoCriar](https://user-images.githubusercontent.com/57766036/193283085-0fdcccd0-a5ce-4b7e-befe-71a67d4f20a1.gif)
 
 - Tela inicial dos funcionários 
 
+![image](https://user-images.githubusercontent.com/57766036/193283439-75d9139b-8682-45d8-a7f4-7848f1c5c95a.png)
 
 
 - Editar cadastro
 
 
+![funcaoEditar](https://user-images.githubusercontent.com/57766036/193284073-a882a1ef-83ee-4fe3-a3b7-456185510093.gif)
 
 
 - Excluir cadastro
 
 
+![funcaoExcluir](https://user-images.githubusercontent.com/57766036/193280398-d7386515-a824-470a-a6a3-71da335bfd9b.gif)
 
 
 
