@@ -6,6 +6,23 @@ FuncionariosMVC
 ![image](https://user-images.githubusercontent.com/57766036/193074337-5881ecb5-511f-49da-b829-86a822087498.png)
 
 
+# 📝 Notas sobre bugs e implementações
+- <h3>Erro de Scaffolding</h3>
+
+O erro acontecia quando a classe <b>DbContext</b> era criada antes do processo de Scaffolding. Neste caso, fazer o Scaffolding sem criar a classe e as strings de conexão, pois isso é gerado após o procedimento ser concluído. Após o término, altere os parâmetros de conexão com o banco, conforme citado abaixo.
+
+- <h3>Validadores CPF e RG</h3>
+
+A classe para validação de CPF já está implantada, porém a validação ainda não ocorre. Será corrigida juntamente com a implementação da validação de RG.
+
+- <h3>Endereço e Cargos</h3>
+
+A falha de relação entre as entidades fez com que houvesse a simplificação da primeira versão. Serão implementadas as melhorias na próxima versão.
+
+- <h3>Identidade Visual</h3>
+
+Será alterada na próxima versão, visando corrigir a responsividade e uma aparência mais limpa.
+
 # 📖 Descrição do projeto
 O projeto consiste em ter uma CRUD (Create, Read, Update and Delete) para cadastro de funcionários. Sua primeira versão possibilita ao usuário criar, excluir, consultar e atualizar o cadastro de um funcionário. No decorrer do documento, será mostrado as funcionalidades do projeto e as ferramentas necessárias para sua execução, junto com as ferramentas utilizadas para seu desenvolvimento. Esta é sua primeira versão e serão incrementadas mais funcionalidades no futuro.
 
