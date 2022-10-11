@@ -23,12 +23,17 @@ namespace FuncionariosMVC.Services
             string ret = reg.Replace(text, string.Empty);
             return ret;
         }
+        //Remove formatação do número, ex: "123.456.789-01" vira: "12345678901"
+        // cpf = RemoveNaoNumericos(cpf);
+
         public static bool ValidarCPF(string cpf)
         {
-            //Remove formatação do número, ex: "123.456.789-01" vira: "12345678901"
-            cpf = RemoveNaoNumericos(cpf);
 
-            if (cpf.Length != 11)
+            string valor = cpf.Replace(".", "");
+
+            valor = valor.Replace("-", "");
+
+            if (valor.Length != 11)
             {
 
                 return false;
@@ -38,14 +43,14 @@ namespace FuncionariosMVC.Services
 
             for (int i = 1; i < 11 && igual; i++)
             {
-                if (cpf[i] != cpf[0])
+                if (valor[i] != valor[0])
                 {
 
                     igual = false;
                 }
             }
 
-            if (igual || cpf == "12345678909")
+            if (igual || valor == "12345678909")
             {
                 return false;
             }
@@ -56,7 +61,7 @@ namespace FuncionariosMVC.Services
 
             for (int i = 0; i < 11; i++)
             {
-                numeros[i] = int.Parse(cpf[i].ToString());
+                numeros[i] = int.Parse(valor[i].ToString());
             }
 
             int soma = 0;
@@ -109,8 +114,7 @@ namespace FuncionariosMVC.Services
                 return false;
             }
             return true;
+
         }
-
-
     }
 }
