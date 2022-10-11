@@ -13,7 +13,6 @@ namespace FuncionariosMVC.Models
         [StringLength(100, MinimumLength = 3, ErrorMessage = "O campo deve ter no mínimo três caracteres!")]
         public string Nome { get; set; }
         [Required(ErrorMessage = "CPF obrigatório")]
-        
         [DisplayName("CPF")]
         public string Cpf { get; set; }
         [DisplayName("RG")]
