@@ -9,14 +9,16 @@ namespace FuncionariosMVC.Services
         public ValidadorCpf()
         {
         }
-        /*         public override bool IsValid(object? value)
+        /*  public override bool IsValid(object? value)
         {
             if (value == null || string.IsNullOrEmpty(value.ToString()))
             {
                 return true;
             }
-        }
- */
+
+        } */
+
+
         public static string RemoveNaoNumericos(string text)
         {
             Regex reg = new Regex(@"[^0-9]");

@@ -14,8 +14,8 @@ namespace FuncionariosMVC.Models
         public string Nome { get; set; }
         [Required(ErrorMessage = "CPF obrigatório")]
         [DisplayName("CPF")]
-        [RegularExpression(@"/^\d{3}.\d{3}.\d{3}-\d{2}$")]
-
+        // Regex CPF [RegularExpression(@"/^\d{3}.\d{3}.\d{3}-\d{2}$")]
+        [ValidadorCpf(ErrorMessage = "Digite um CPF válido")]
         public string Cpf { get; set; }
         [DisplayName("RG")]
 
