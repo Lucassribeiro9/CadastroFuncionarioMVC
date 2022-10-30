@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using DocumentValidator;
 
 namespace FuncionariosMVC.Services
 {
@@ -9,114 +10,120 @@ namespace FuncionariosMVC.Services
         public ValidadorCpf()
         {
         }
-        /*  public override bool IsValid(object? value)
+        public override bool IsValid(object? value)
         {
+            
+
             if (value == null || string.IsNullOrEmpty(value.ToString()))
             {
                 return true;
             }
+            else
+            {
+                return CpfValidation.Validate(value.ToString());
+            }
+        }
 
-        } */
-
-
+        //Remove formatação do número, ex: "123.456.789-01" vira: "12345678901"
+        // cpf = RemoveNaoNumericos(cpf);
         public static string RemoveNaoNumericos(string text)
         {
             Regex reg = new Regex(@"[^0-9]");
             string ret = reg.Replace(text, string.Empty);
             return ret;
         }
-        //Remove formatação do número, ex: "123.456.789-01" vira: "12345678901"
-        // cpf = RemoveNaoNumericos(cpf);
 
-        public static bool ValidarCPF(string cpf)
-        {
+        // método de validação de cpf
+        /* public static bool ValidarCPF(string cpf)
+          {
 
-            string valor = cpf.Replace(".", "");
+              string valor = cpf.Replace(".", "");
 
-            valor = valor.Replace("-", "");
+              valor = valor.Replace("-", "");
 
-            if (valor.Length != 11)
-            {
+              if (valor.Length != 11)
+              {
 
-                return false;
-            }
+                  return false;
+              }
 
-            bool igual = true;
+              bool igual = true;
 
-            for (int i = 1; i < 11 && igual; i++)
-            {
-                if (valor[i] != valor[0])
-                {
+              for (int i = 1; i < 11 && igual; i++)
+              {
+                  if (valor[i] != valor[0])
+                  {
 
-                    igual = false;
-                }
-            }
+                      igual = false;
+                  }
+              }
 
-            if (igual || valor == "12345678909")
-            {
-                return false;
-            }
+              if (igual || valor == "12345678909")
+              {
+                  return false;
+              }
 
-            int[] numeros = new int[11];
-
+              int[] numeros = new int[11];
 
 
-            for (int i = 0; i < 11; i++)
-            {
-                numeros[i] = int.Parse(valor[i].ToString());
-            }
 
-            int soma = 0;
+              for (int i = 0; i < 11; i++)
+              {
+                  numeros[i] = int.Parse(valor[i].ToString());
+              }
 
-            for (int i = 0; i < 9; i++)
-            {
-                soma += (10 - i) * numeros[i];
-            }
+              int soma = 0;
 
-            int resultado = soma % 11;
+              for (int i = 0; i < 9; i++)
+              {
+                  soma += (10 - i) * numeros[i];
+              }
 
-            if (resultado == 1 || resultado == 0)
-            {
+              int resultado = soma % 11;
 
-                if (numeros[9] != 0)
-                {
+              if (resultado == 1 || resultado == 0)
+              {
 
-                    return false;
-                }
+                  if (numeros[9] != 0)
+                  {
+
+                      return false;
+                  }
 
 
-            }
-            else if (numeros[9] != 11 - resultado)
-            {
-                return false;
+              }
+              else if (numeros[9] != 11 - resultado)
+              {
+                  return false;
 
-            }
+              }
 
-            soma = 0;
+              soma = 0;
 
-            for (int i = 0; i < 10; i++)
-            {
+              for (int i = 0; i < 10; i++)
+              {
 
-                soma += (11 - i) * numeros[i];
-            }
+                  soma += (11 - i) * numeros[i];
+              }
 
-            resultado = soma % 11;
+              resultado = soma % 11;
 
-            if (resultado == 1 || resultado == 0)
-            {
-                if (numeros[10] != 0)
-                {
+              if (resultado == 1 || resultado == 0)
+              {
+                  if (numeros[10] != 0)
+                  {
 
-                    return false;
-                }
-            }
-            else if (numeros[10] != 11 - resultado)
-            {
+                      return false;
+                  }
+              }
+              else if (numeros[10] != 11 - resultado)
+              {
 
-                return false;
-            }
-            return true;
+                  return false;
+              }
+              return true;
 
-        }
+          }
+    */
     }
 }
