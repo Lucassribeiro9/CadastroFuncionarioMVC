@@ -56,6 +56,10 @@ namespace FuncionariosMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Cpf,Rg,OrgaoEmissor,TituloEleitoral,Cep,Logradouro,NumeroEndereco,Complemento,Bairro,Cidade,Estado,FuncionarioAtivo,CargoGestor")] Funcionario funcionario)
         {
+            if (FuncionarioExists(funcionario.Nome))
+            {
+                return Problem("Já existe um funcionário com este nome!");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(funcionario);
@@ -92,7 +96,10 @@ namespace FuncionariosMVC.Controllers
             {
                 return NotFound();
             }
-
+            if (FuncionarioExists(funcionario.Nome))
+            {
+                return Problem("Já existe um funcionário com este nome!");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -156,6 +163,10 @@ namespace FuncionariosMVC.Controllers
         private bool FuncionarioExists(int id)
         {
           return _context.Funcionario.Any(e => e.Id == id);
+        }
+        private bool FuncionarioExists(string nome)
+        {
+            return _context.Funcionario.Any(e => e.Nome == nome);
         }
     }
 }
