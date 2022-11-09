@@ -22,7 +22,7 @@ namespace FuncionariosMVC.Controllers
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Funcionario.ToListAsync());
+            return View(await _context.Funcionario.ToListAsync());
         }
 
         // GET: Funcionarios/Details/5
@@ -58,7 +58,7 @@ namespace FuncionariosMVC.Controllers
         {
             if (FuncionarioExists(funcionario.Nome))
             {
-               throw new ApplicationException("Já existe um funcionário com este nome!");
+                throw new ApplicationException("Já existe um funcionário com este nome!");
             }
             if (ModelState.IsValid)
             {
@@ -96,10 +96,12 @@ namespace FuncionariosMVC.Controllers
             {
                 return NotFound();
             }
+            /*
             if (FuncionarioExists(funcionario.Nome))
             {
                 return Problem("Já existe um funcionário com este nome!");
             }
+            */
             if (ModelState.IsValid)
             {
                 try
@@ -155,14 +157,14 @@ namespace FuncionariosMVC.Controllers
             {
                 _context.Funcionario.Remove(funcionario);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FuncionarioExists(int id)
         {
-          return _context.Funcionario.Any(e => e.Id == id);
+            return _context.Funcionario.Any(e => e.Id == id);
         }
         private bool FuncionarioExists(string nome)
         {
