@@ -96,12 +96,12 @@ namespace FuncionariosMVC.Controllers
             {
                 return NotFound();
             }
-            /*
+            
             if (FuncionarioExists(funcionario.Nome))
             {
-                return Problem("Já existe um funcionário com este nome!");
+                throw new ApplicationException("Já existe um funcionário com este nome!");
             }
-            */
+
             if (ModelState.IsValid)
             {
                 try
