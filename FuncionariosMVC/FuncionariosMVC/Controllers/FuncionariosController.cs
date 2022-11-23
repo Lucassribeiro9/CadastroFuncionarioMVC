@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FuncionariosMVC.Data;
 using FuncionariosMVC.Models;
+using System.Diagnostics;
 
 namespace FuncionariosMVC.Controllers
 {
@@ -30,14 +31,14 @@ namespace FuncionariosMVC.Controllers
         {
             if (id == null || _context.Funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
             var funcionario = await _context.Funcionario
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário não existe" });
             }
 
             return View(funcionario);
@@ -58,7 +59,7 @@ namespace FuncionariosMVC.Controllers
         {
             if (FuncionarioExists(funcionario.Nome))
             {
-                throw new ApplicationException("Já existe um funcionário com este nome!");
+                return RedirectToAction(nameof(Error), new { message = "Já existe um funcionário com este nome!" });
             }
             if (ModelState.IsValid)
             {
@@ -74,13 +75,13 @@ namespace FuncionariosMVC.Controllers
         {
             if (id == null || _context.Funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
             var funcionario = await _context.Funcionario.FindAsync(id);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário inexistente" });
             }
             return View(funcionario);
         }
@@ -94,12 +95,13 @@ namespace FuncionariosMVC.Controllers
         {
             if (id != funcionario.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não corresponde" });
             }
-            
+
             if (FuncionarioExists(funcionario.Nome))
             {
-                throw new ApplicationException("Já existe um funcionário com este nome!");
+                return RedirectToAction(nameof(Error), new { message = "Já existe um funcionário com este nome" });
+
             }
 
             if (ModelState.IsValid)
@@ -109,11 +111,11 @@ namespace FuncionariosMVC.Controllers
                     _context.Update(funcionario);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (ApplicationException e)
                 {
                     if (!FuncionarioExists(funcionario.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error), new { message = e.Message });
                     }
                     else
                     {
@@ -130,14 +132,14 @@ namespace FuncionariosMVC.Controllers
         {
             if (id == null || _context.Funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof (Error), new { message = "Id não existe" });
             }
 
             var funcionario = await _context.Funcionario
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário não existe" });
             }
 
             return View(funcionario);
@@ -169,6 +171,16 @@ namespace FuncionariosMVC.Controllers
         private bool FuncionarioExists(string nome)
         {
             return _context.Funcionario.Any(e => e.Nome == nome);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
