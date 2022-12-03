@@ -44,6 +44,9 @@ namespace FuncionariosMVC.Models
         [DisplayName("Possui cargo como gestor?")]
         public bool CargoGestor { get; set; }
 
+        [DisplayName("Departamento")]
+        public Departamentos Departamentos { get; set; }
+
         public Funcionario()
         {
         }
