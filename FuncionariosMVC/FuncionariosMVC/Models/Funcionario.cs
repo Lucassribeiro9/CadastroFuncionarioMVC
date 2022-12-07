@@ -51,7 +51,7 @@ namespace FuncionariosMVC.Models
         {
         }
 
-        public Funcionario(int id, string nome, string cpf, string rg, string orgaoEmissor, string tituloEleitoral, string cep, string logradouro, string numeroEndereco, string complemento, string bairro, string cidade, string estado, bool funcionarioAtivo, bool cargoGestor)
+        public Funcionario(int id, string nome, string cpf, string rg, string orgaoEmissor, string tituloEleitoral, string cep, string logradouro, string numeroEndereco, string complemento, string bairro, string cidade, string estado, bool funcionarioAtivo, bool cargoGestor, Departamentos departamentos)
         {
             Id = id;
             Nome = nome;
@@ -68,6 +68,7 @@ namespace FuncionariosMVC.Models
             Estado = estado;
             FuncionarioAtivo = funcionarioAtivo;
             CargoGestor = cargoGestor;
+            Departamentos = departamentos;
         }
     }
 }
