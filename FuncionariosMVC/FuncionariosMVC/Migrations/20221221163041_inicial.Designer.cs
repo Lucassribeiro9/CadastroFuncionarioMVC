@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuncionariosMVC.Migrations
 {
     [DbContext(typeof(FuncionariosMVCContext))]
-    [Migration("20221219213240_DepthMig")]
-    partial class DepthMig
+    [Migration("20221221163041_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

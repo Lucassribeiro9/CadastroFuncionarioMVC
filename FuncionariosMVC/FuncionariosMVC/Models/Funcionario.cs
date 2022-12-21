@@ -46,7 +46,7 @@ namespace FuncionariosMVC.Models
 
         [DisplayName("Departamento")]
         public Departamentos Departamentos { get; set; }
-
+        public int DepartamentosId { get; set; }
         public Funcionario()
         {
         }
