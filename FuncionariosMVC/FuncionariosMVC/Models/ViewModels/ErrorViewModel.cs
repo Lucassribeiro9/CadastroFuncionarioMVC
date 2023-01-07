@@ -1,4 +1,4 @@
-namespace FuncionariosMVC.Models
+namespace FuncionariosMVC.Models.ViewModels
 {
     public class ErrorViewModel
     {
