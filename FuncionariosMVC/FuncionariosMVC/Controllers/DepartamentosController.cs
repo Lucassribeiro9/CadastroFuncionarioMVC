@@ -1,5 +1,6 @@
 ﻿using FuncionariosMVC.Data;
 using FuncionariosMVC.Models;
+using FuncionariosMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -16,16 +17,16 @@ namespace FuncionariosMVC.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamentos.ToListAsync());
+            return View(await _context.Departamento.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
-            var departamento = await _context.Departamentos.FirstOrDefaultAsync(d => d.Id == id);
+            var departamento = await _context.Departamento.FirstOrDefaultAsync(d => d.Id == id);
             if (departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Departamento não existe" });
@@ -40,7 +41,7 @@ namespace FuncionariosMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Departamentos departamentos)
+        public async Task<IActionResult> Create([Bind("Id,Nome")] Departamento departamentos)
         {
             if (DepartamentoExists(departamentos.Nome))
             {
@@ -57,11 +58,11 @@ namespace FuncionariosMVC.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
-            var departamento = await _context.Departamentos.FindAsync(id);
+            var departamento = await _context.Departamento.FindAsync(id);
             if (departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Departamento não existe" });
@@ -70,7 +71,7 @@ namespace FuncionariosMVC.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Departamentos departamentos)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Departamento departamentos)
         {
             if (id != departamentos.Id)
             {
@@ -108,12 +109,12 @@ namespace FuncionariosMVC.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Departamentos == null)
+            if (id == null || _context.Departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
-            var departamento = await _context.Departamentos.FirstOrDefaultAsync(d => d.Id == id);
+            var departamento = await _context.Departamento.FirstOrDefaultAsync(d => d.Id == id);
             if (departamento == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Funcionário não existe" });
@@ -126,14 +127,14 @@ namespace FuncionariosMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Departamentos == null)
+            if (_context.Departamento == null)
             {
                 return Problem("Entity set 'FuncionariosMVCContext.Departamentos'  is null.");
             }
-            var departamento = await _context.Departamentos.FindAsync(id);
+            var departamento = await _context.Departamento.FindAsync(id);
             if (departamento != null)
             {
-                _context.Departamentos.Remove(departamento);
+                _context.Departamento.Remove(departamento);
             }
 
             await _context.SaveChangesAsync();
@@ -142,11 +143,11 @@ namespace FuncionariosMVC.Controllers
 
         private bool DepartamentoExists(int id)
         {
-            return _context.Departamentos.Any(e => e.Id == id);
+            return _context.Departamento.Any(e => e.Id == id);
         }
         private bool DepartamentoExists(string nome)
         {
-            return _context.Departamentos.Any(e => e.Nome == nome);
+            return _context.Departamento.Any(e => e.Nome == nome);
         }
 
         public IActionResult Error(string message)

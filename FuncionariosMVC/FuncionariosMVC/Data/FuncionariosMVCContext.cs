@@ -15,6 +15,6 @@ namespace FuncionariosMVC.Data
         }
 
         public DbSet<Funcionario> Funcionario { get; set; } = default!;
-        public DbSet<Departamentos> Departamentos { get; set; } = default!;
+        public DbSet<Departamento> Departamento { get; set; } = default!;
     }
 }

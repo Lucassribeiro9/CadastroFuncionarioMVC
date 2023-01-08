@@ -45,13 +45,13 @@ namespace FuncionariosMVC.Models
         public bool CargoGestor { get; set; }
 
         [DisplayName("Departamento")]
-        public Departamentos Departamentos { get; set; }
+        public Departamento Departamento { get; set; }
         public int DepartamentosId { get; set; }
         public Funcionario()
         {
         }
 
-        public Funcionario(int id, string nome, string cpf, string rg, string orgaoEmissor, string tituloEleitoral, string cep, string logradouro, string numeroEndereco, string complemento, string bairro, string cidade, string estado, bool funcionarioAtivo, bool cargoGestor, Departamentos departamentos)
+        public Funcionario(int id, string nome, string cpf, string rg, string orgaoEmissor, string tituloEleitoral, string cep, string logradouro, string numeroEndereco, string complemento, string bairro, string cidade, string estado, bool funcionarioAtivo, bool cargoGestor, Departamento departamentos)
         {
             Id = id;
             Nome = nome;
@@ -68,7 +68,7 @@ namespace FuncionariosMVC.Models
             Estado = estado;
             FuncionarioAtivo = funcionarioAtivo;
             CargoGestor = cargoGestor;
-            Departamentos = departamentos;
+            Departamento = departamentos;
         }
     }
 }
