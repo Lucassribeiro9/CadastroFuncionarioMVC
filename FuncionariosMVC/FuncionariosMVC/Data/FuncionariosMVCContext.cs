@@ -9,11 +9,12 @@ namespace FuncionariosMVC.Data
 {
     public class FuncionariosMVCContext : DbContext
     {
-        public FuncionariosMVCContext (DbContextOptions<FuncionariosMVCContext> options)
+        public FuncionariosMVCContext(DbContextOptions<FuncionariosMVCContext> options)
             : base(options)
         {
         }
 
         public DbSet<Funcionario> Funcionario { get; set; } = default!;
+        public DbSet<Departamento> Departamento { get; set; } = default!;
     }
 }

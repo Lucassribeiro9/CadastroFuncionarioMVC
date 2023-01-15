@@ -7,78 +7,95 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FuncionariosMVC.Data;
 using FuncionariosMVC.Models;
+using System.Diagnostics;
+using FuncionariosMVC.Services;
+using FuncionariosMVC.Models.ViewModels;
+using FuncionariosMVC.Services.Exceptions;
 
 namespace FuncionariosMVC.Controllers
 {
     public class FuncionariosController : Controller
     {
-        private readonly FuncionariosMVCContext _context;
+        private readonly DepartamentoService _departamentoService;
+        private readonly FuncionarioService _funcionarioService;
 
-        public FuncionariosController(FuncionariosMVCContext context)
+
+        public FuncionariosController(DepartamentoService departamentoService, FuncionarioService funcionarioService)
         {
-            _context = context;
+            _departamentoService = departamentoService;
+            _funcionarioService = funcionarioService;
         }
 
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Funcionario.ToListAsync());
+            var list = await _funcionarioService.FindAllAsync();
+            return View(list);
         }
 
+        public async Task<IActionResult> Create()
+        {
+            var departmentos = await _departamentoService.FindAllAsync();
+            var viewModel = new FuncFormViewModel { Departamentos = departmentos };
+            return View(viewModel);
+        }
         // GET: Funcionarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
-            var funcionario = await _context.Funcionario
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var funcionario = await _funcionarioService.FindByIDAsync(id.Value);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário não existe" });
             }
 
             return View(funcionario);
         }
 
-        // GET: Funcionarios/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+
 
         // POST: Funcionarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Cpf,Rg,OrgaoEmissor,TituloEleitoral,Cep,Logradouro,NumeroEndereco,Complemento,Bairro,Cidade,Estado,FuncionarioAtivo,CargoGestor")] Funcionario funcionario)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Cpf,Rg,OrgaoEmissor,TituloEleitoral,Cep,Logradouro,NumeroEndereco,Complemento,Bairro,Cidade,Estado,FuncionarioAtivo,CargoGestor,Departamentos")] Funcionario funcionario)
         {
+            /*  if (FuncionarioExists(funcionario.Nome))
+             {
+                 return RedirectToAction(nameof(Error), new { message = "Já existe um funcionário com este nome!" });
+             }*/
             if (ModelState.IsValid)
             {
-                _context.Add(funcionario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var departamentos = await _departamentoService.FindAllAsync();
+                var viewModel = new FuncFormViewModel { Funcionario = funcionario, Departamentos = departamentos };
+                return View(viewModel);
             }
-            return View(funcionario);
+            await _funcionarioService.InsertAsync(funcionario);
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Funcionarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
-            var funcionario = await _context.Funcionario.FindAsync(id);
+            var funcionario = await _funcionarioService.FindByIDAsync(id.Value);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário inexistente" });
             }
-            return View(funcionario);
+            List<Departamento> departamentos = await _departamentoService.FindAllAsync();
+            FuncFormViewModel viewModel = new FuncFormViewModel { Funcionario = funcionario, Departamentos = departamentos };
+            return View(viewModel);
         }
 
         // POST: Funcionarios/Edit/5
@@ -86,49 +103,49 @@ namespace FuncionariosMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cpf,Rg,OrgaoEmissor,TituloEleitoral,Cep,Logradouro,NumeroEndereco,Complemento,Bairro,Cidade,Estado,FuncionarioAtivo,CargoGestor")] Funcionario funcionario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cpf,Rg,OrgaoEmissor,TituloEleitoral,Cep,Logradouro,NumeroEndereco,Complemento,Bairro,Cidade,Estado,FuncionarioAtivo,CargoGestor,Departamentos")] Funcionario funcionario)
         {
             if (id != funcionario.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não corresponde" });
             }
 
-            if (ModelState.IsValid)
+           /* if (FuncionarioExists(funcionario.Nome))
             {
-                try
-                {
-                    _context.Update(funcionario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FuncionarioExists(funcionario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                return RedirectToAction(nameof(Error), new { message = "Já existe um funcionário com este nome" });
+
+            } */
+
+            if (!ModelState.IsValid)
+            {
+                var departamentos = await _departamentoService.FindAllAsync();
+                var viewModel = new FuncFormViewModel { Funcionario = funcionario, Departamentos = departamentos };
+                return View(viewModel);
+            }
+            try
+            {
+                await _funcionarioService.UpdateAsync(funcionario);
                 return RedirectToAction(nameof(Index));
             }
-            return View(funcionario);
+            catch (ApplicationException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
+
 
         // GET: Funcionarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não existe" });
             }
 
-            var funcionario = await _context.Funcionario
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var funcionario = await _funcionarioService.FindByIDAsync(id.Value);
             if (funcionario == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Funcionário não existe" });
             }
 
             return View(funcionario);
@@ -139,23 +156,37 @@ namespace FuncionariosMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Funcionario == null)
+            try
             {
-                return Problem("Entity set 'FuncionariosMVCContext.Funcionario'  is null.");
+                await _funcionarioService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+
             }
-            var funcionario = await _context.Funcionario.FindAsync(id);
-            if (funcionario != null)
+            catch (IntegrityException e)
             {
-                _context.Funcionario.Remove(funcionario);
+
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
+        /* erro
         private bool FuncionarioExists(int id)
         {
-          return _context.Funcionario.Any(e => e.Id == id);
+            return _funcionarioService.Any(e => e.Id == id);
+        }
+        private bool FuncionarioExists(string nome)
+        {
+            return _context.Funcionario.Any(e => e.Nome == nome);
+        }
+         */
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
