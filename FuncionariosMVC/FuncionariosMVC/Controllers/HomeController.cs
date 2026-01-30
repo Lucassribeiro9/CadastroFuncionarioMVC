@@ -1,4 +1,5 @@
 ﻿using FuncionariosMVC.Models;
+using FuncionariosMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

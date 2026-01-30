@@ -21,6 +21,23 @@ namespace FuncionariosMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("FuncionariosMVC.Models.Departamentos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departamentos");
+                });
+
             modelBuilder.Entity("FuncionariosMVC.Models.Funcionario", b =>
                 {
                     b.Property<int>("Id")
@@ -51,6 +68,9 @@ namespace FuncionariosMVC.Migrations
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DepartamentosId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -86,7 +106,20 @@ namespace FuncionariosMVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartamentosId");
+
                     b.ToTable("Funcionario");
+                });
+
+            modelBuilder.Entity("FuncionariosMVC.Models.Funcionario", b =>
+                {
+                    b.HasOne("FuncionariosMVC.Models.Departamentos", "Departamentos")
+                        .WithMany()
+                        .HasForeignKey("DepartamentosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Departamentos");
                 });
 #pragma warning restore 612, 618
         }
